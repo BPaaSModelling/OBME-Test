@@ -11,7 +11,6 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatListModule, MatButtonModule, MatToolbarModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToolRecursivePaletteElementComponent} from './-tool-recursive-palette-element/-tool-recursive-palette-element.component';
-import {ContextMenuModule} from 'ngx-contextmenu';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 const appRoutes: Routes = [
@@ -37,7 +36,6 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatToolbarModule,
     BrowserAnimationsModule,
-    ContextMenuModule,
     NgbModule,
   ],
   providers: [ModellerService],

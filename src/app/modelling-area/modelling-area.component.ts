@@ -1,11 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, SimpleChanges, HostListener} from '@angular/core';
 import 'fabric';
-import {MetamodelElementModel} from "../_models/MetamodelElement.model";
-import {PaletteElementModel} from "../_models/PaletteElement.model";
-import {VariablesSettings} from "../_settings/variables.settings";
-import {isNullOrUndefined} from "util";
+import {MetamodelElementModel} from '../_models/MetamodelElement.model';
+import {PaletteElementModel} from '../_models/PaletteElement.model';
 import {UUID} from 'angular2-uuid';
-import { Overlay } from 'ngx-modialog';
 declare let fabric;
 
 

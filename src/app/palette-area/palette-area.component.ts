@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core'
 import {MetamodelElementModel} from '../_models/MetamodelElement.model';
 import {ModellerService} from '../modeller.service';
 import {PaletteElementModel} from '../_models/PaletteElement.model';
-import {ContextMenuComponent} from 'ngx-contextmenu';
+
 import {UUID} from 'angular2-uuid';
 
 @Component({
@@ -17,7 +17,6 @@ export class PaletteAreaComponent implements OnInit {
    // { name: 'John', otherProperty: 'Foo' },
    // { name: 'Joe', otherProperty: 'Bar' }
   ];
-  @ViewChild(ContextMenuComponent) public basicMenu: ContextMenuComponent;
 
   constructor(private mService: ModellerService) {
     this.mService.queryPaletteCategories();
