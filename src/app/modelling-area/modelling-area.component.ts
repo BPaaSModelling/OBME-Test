@@ -1,10 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, OnChanges, ElementRef, HostListener} from '@angular/core';
-import cytoscape from 'cytoscape';
+import {Component, Input, OnInit, OnChanges, ElementRef} from '@angular/core';
+import * as cytoscape from 'cytoscape';
 import {MetamodelElementModel} from '../_models/MetamodelElement.model';
 import {PaletteElementModel} from '../_models/PaletteElement.model';
 import {UUID} from 'angular2-uuid';
 declare var jQuery: any;
-declare var cytoscape: any;
+declare var cyt: any;
 
 
 @Component({
@@ -19,7 +19,9 @@ export class ModellingAreaComponent implements OnInit {
   @Input() public layout: any;
   @Input() public zoom: any;
   @Input() new_element: PaletteElementModel;
-  cytoscape = require('cytoscape');
+  cyt = cytoscape({
+    container: document.getElementById('cy') // container to render in
+  });
 
   public constructor(private el: ElementRef) {
 
