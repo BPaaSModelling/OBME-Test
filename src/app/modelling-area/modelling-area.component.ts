@@ -108,10 +108,26 @@ console.log('Constructor of graph');
   printNewElement(element: PaletteElementModel): void {
 
     if (element !== undefined) {
-      cty.add({
-      group: "nodes",
-      uuid: element.uuid,
-      });
+      console.log(element.imageURL);
+      cty.add(
+        { group: 'nodes', data: {id: 'node1'}}
+        );
+      cty.style()
+        .selector('node')
+        .css({
+          'height': 70,
+          'width': 100,
+          'background-fit': 'cover',
+          'border': 'none',
+          'border-width': 0,
+          'background': 'none'
+        })
+        .selector('#node1')
+        .css({
+          'shape': 'rectangle',
+          'background-color': '#000',
+          'background-image': '../assets/images/'+element.imageURL // 'https://farm7.staticflickr.com/6098/6224655456_f4c3c98589_b.jpg'
+        }).update();
     }
     }
 }
