@@ -85,50 +85,16 @@ console.log('Constructor of graph');
   }
 
   ngOnInit() {
+    cty = cytoscape({
+      container: document.getElementById('cy')
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     //TODO to change with ngDoCheck
-    // this.printNewElement(changes.new_element.currentValue);
-console.log('on changes');
-    cty = cytoscape({
-      container: document.getElementById('cy'),
-      elements: [ // list of graph elements to start with
-        { // node a
-          data: { id: 'a' }
-        },
-        { // node b
-          data: { id: 'b' }
-        },
-        { // edge ab
-          data: { id: 'ab', source: 'a', target: 'b' }
-        }
-      ],
-      style: [ // the stylesheet for the graph
-        {
-          selector: 'node',
-          style: {
-            'background-color': '#666',
-            'label': 'data(id)'
-          }
-        },
+    this.printNewElement(changes.new_element.currentValue);
 
-        {
-          selector: 'edge',
-          style: {
-            'width': 3,
-            'line-color': '#ccc',
-            'target-arrow-color': '#ccc',
-            'target-arrow-shape': 'triangle'
-          }
-        }
-      ],
 
-      layout: {
-        name: 'grid',
-        rows: 1
-      }
-    });
 
     /*let eles = cty.add([
       { group: "nodes", data: { id: "n0" }, position: { x: 100, y: 100 } },
@@ -138,5 +104,15 @@ console.log('on changes');
 
     //console.log(changes.new_element.currentValue);
   }
+
+  printNewElement(element: PaletteElementModel): void {
+
+    if (element !== undefined) {
+      cty.add({
+      group: "nodes",
+      uuid: element.uuid,
+      });
+    }
+    }
 }
 // https://github.com/shlomiassaf/ngx-modialog
