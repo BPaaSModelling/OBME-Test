@@ -27,11 +27,12 @@ export class PaletteAreaComponent implements OnInit {
   ngOnInit() {
   }
 
-  private addNewShape(a: MetamodelElementModel): void {
+  private addNewShape(a: PaletteElementModel): void {
     //Here i give to the paletteElement a new ID, so that when this is received by the modeller, it recognize it as a new Element to create
-    let uuid = UUID.UUID();
-    let b: MetamodelElementModel = Object.assign({}, a);
-    b.id = 'id' + uuid;
+    const uuid = UUID.UUID();
+    const b: PaletteElementModel = Object.assign({}, a);
+    b.id = a.id;
+    b.uuid = uuid;
     this.sendElementFromPalette.emit(b);
-      }
+  }
 }

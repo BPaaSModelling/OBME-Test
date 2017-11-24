@@ -3,6 +3,8 @@ import 'fabric';
 import {MetamodelElementModel} from '../_models/MetamodelElement.model';
 import {PaletteElementModel} from '../_models/PaletteElement.model';
 import {UUID} from 'angular2-uuid';
+import {ModellerService} from '../modeller.service';
+
 declare let fabric;
 
 
@@ -21,7 +23,7 @@ export class ModellingAreaComponent implements OnInit {
   private linkMode: boolean;
   private linkConnector: any;
 
-  constructor() {
+  constructor(public mService: ModellerService) {
   }
 
   ngOnInit() {
@@ -133,6 +135,9 @@ export class ModellingAreaComponent implements OnInit {
         //this.canvas.add(label).renderAll();
         //this.canvas.add(oImg).renderAll();
         this.canvas.add(group).renderAll();
+
+        element.tempLabel = label.text;
+        this.mService.createElementInOntology(element);
         });
 
       }

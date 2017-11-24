@@ -39,4 +39,18 @@ export class ModellerService {
         this.paletteCategorie$ = Observable.of(data);
       }, error => console.log('Could not query PaletteElements'));
   }
+
+  createElementInOntology(element: Object): string {
+    let result = '';
+    this.http.post(EndpointSettings.getCreateElementEndpoint(), JSON.stringify(element))
+      .map(response => response.json()).subscribe(
+      data => {
+        result = 'OK';
+
+      }, error =>
+        result = 'ERROR'
+    );
+
+    return result;
+  }
 }
