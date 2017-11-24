@@ -14,15 +14,18 @@ export class ModellingEnvironmentComponent implements OnInit {
   new_element: PaletteElementModel;
 
   constructor(private modellerService: ModellerService) {
+    console.log('constructor');
     //this.count = 0;
     //this.modellerService.queryPaletteElements();
   }
 
   ngOnInit() {
+    console.log('Inside init');
   }
 
   sendElementToCanvas(new_element: PaletteElementModel) {
     this.new_element = new_element;
+    console.log('Hello');
   }
 
 }

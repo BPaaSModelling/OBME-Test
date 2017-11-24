@@ -19,12 +19,14 @@ export class PaletteAreaComponent implements OnInit {
   ];
 
   constructor(private mService: ModellerService) {
+    console.log('constructor of pallette');
     this.mService.queryPaletteCategories();
     this.mService.queryPaletteElements();
 
   }
 
   ngOnInit() {
+    console.log('init pallette');
   }
 
   private addNewShape(a: PaletteElementModel): void {

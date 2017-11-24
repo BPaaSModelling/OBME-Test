@@ -1,15 +1,14 @@
-import {Component, Input, OnInit, OnChanges, ElementRef} from '@angular/core';
+import {Component, Input, OnInit, OnChanges} from '@angular/core';
 import * as cytoscape from 'cytoscape';
 import {MetamodelElementModel} from '../_models/MetamodelElement.model';
 import {PaletteElementModel} from '../_models/PaletteElement.model';
-import {UUID} from 'angular2-uuid';
-declare var jQuery: any;
-declare var cyt: any;
+let cyt: any;
 
 
 @Component({
   selector: 'app-modelling-area',
-  templateUrl: './modelling-area.component.html',
+  // templateUrl: './modelling-area.component.html',
+  template: '<div id="cy"></div>',
   styleUrls: ['./modelling-area.component.css']
 })
 export class ModellingAreaComponent implements OnInit {
@@ -19,11 +18,47 @@ export class ModellingAreaComponent implements OnInit {
   @Input() public layout: any;
   @Input() public zoom: any;
   @Input() new_element: PaletteElementModel;
-  cyt = cytoscape({
-    container: document.getElementById('cy') // container to render in
-  });
 
-  public constructor(private el: ElementRef) {
+  public constructor() {
+
+    cyt = cytoscape({
+      container: undefined,
+      elements: [ // list of graph elements to start with
+        { // node a
+          data: { id: 'a' }
+        },
+        { // node b
+          data: { id: 'b' }
+        },
+        { // edge ab
+          data: { id: 'ab', source: 'a', target: 'b' }
+        }
+      ],
+      style: [ // the stylesheet for the graph
+        {
+          selector: 'node',
+          style: {
+            'background-color': '#666',
+            'label': 'data(id)'
+          }
+        },
+
+        {
+          selector: 'edge',
+          style: {
+            'width': 3,
+            'line-color': '#ccc',
+            'target-arrow-color': '#ccc',
+            'target-arrow-shape': 'triangle'
+          }
+        }
+      ],
+
+      layout: {
+        name: 'grid',
+        rows: 1
+      }
+    });
 
     this.layout = this.layout || {
       name: 'grid',
@@ -81,13 +116,13 @@ export class ModellingAreaComponent implements OnInit {
   }
 
   public render() {
-    jQuery(this.el.nativeElement).cytoscape({
+    /*jQuery(this.el.nativeElement).cytoscape({
       layout: this.layout,
       minZoom: this.zoom.min,
       maxZoom: this.zoom.max,
       style: this.style,
       elements: this.elements,
-    });
+    });*/
   }
 }
 // https://github.com/shlomiassaf/ngx-modialog
