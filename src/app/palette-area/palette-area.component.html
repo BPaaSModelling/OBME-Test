@@ -12,29 +12,6 @@
     </ng-container>
   </nav>
 </div>
-
-
-  <p *ngFor="let item of items" [contextMenu]="basicMenu" [contextMenuSubject]="item">{{item?.name}}</p>
-<context-menu>
-  <ng-template contextMenuItem passive="true">
-    Extend UserTask: <input type="text"> <button>Extend</button>
-  </ng-template>
-  <ng-template contextMenuItem [subMenu]="saySubMenu">
-    Edit
-  </ng-template>
-  <context-menu #saySubMenu>
-    <ng-template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
-      Add Attribute/Value
-    </ng-template>
-    <ng-template contextMenuItem (execute)="showMessage('Hola, ' + $event.item.name)">
-      Modify Attribute
-    </ng-template>
-  </context-menu>
-  <ng-template contextMenuItem divider="true"></ng-template>
-  <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
-    Delete Element
-  </ng-template>
-
-</context-menu>
+ 
 
 
