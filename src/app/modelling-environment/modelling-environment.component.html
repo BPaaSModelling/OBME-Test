@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- Include AngluarJS library
+<script src="js/angular.min.js"></script>
+<!-- Include UI Bootstrap library
+<script src="js/ui-bootstrap-tpls-0.14.3.min.js"></script>
+<!-- Include Bootstrap CSS CDN link
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"> -->
+<div class="flex-container"  fxLayout="row">
+    <div class="palette-area">
+      <app-palette-area (sendElementFromPalette)="sendElementToCanvas($event)"></app-palette-area>
+   </div>
+    <div class="modelling-area">
+      <app-modelling-area [new_element] = "new_element"></app-modelling-area>
+    </div>
+</div>
+
+
+
+

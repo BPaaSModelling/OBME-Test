@@ -1,0 +1,40 @@
+ <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+
+<div class="category"*ngFor="let category of (mService.paletteCategorie$ | async)">
+  <p class="category-title">{{category.label}}</p>
+  <nav class="element-container">
+    <ng-container *ngFor="let element of mService.paletteElements">
+    <ul class="element" *ngIf="(element.paletteCategory == category.id)">
+      <li class="paletteElement"><a (click)="addNewShape(element)"><img class="thumbnail"  src="../assets/images/{{element.thumbnailURL}}" /></a>
+        <app--tool-recursive-palette-element (sendElementFromRecursiveElement)="addNewShape($event)" [child]="element"></app--tool-recursive-palette-element>
+      </li>
+    </ul>
+    </ng-container>
+  </nav>
+</div>
+
+
+  <p *ngFor="let item of items" [contextMenu]="basicMenu" [contextMenuSubject]="item">{{item?.name}}</p>
+<context-menu>
+  <ng-template contextMenuItem passive="true">
+    Extend UserTask: <input type="text"> <button>Extend</button>
+  </ng-template>
+  <ng-template contextMenuItem [subMenu]="saySubMenu">
+    Edit
+  </ng-template>
+  <context-menu #saySubMenu>
+    <ng-template contextMenuItem (execute)="showMessage('Hi, ' + $event.item.name)">
+      Add Attribute/Value
+    </ng-template>
+    <ng-template contextMenuItem (execute)="showMessage('Hola, ' + $event.item.name)">
+      Modify Attribute
+    </ng-template>
+  </context-menu>
+  <ng-template contextMenuItem divider="true"></ng-template>
+  <ng-template contextMenuItem let-item (execute)="showMessage($event.item.name + ' said: ' + $event.item.otherProperty)">
+    Delete Element
+  </ng-template>
+
+</context-menu>
+
+

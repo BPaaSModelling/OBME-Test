@@ -1,0 +1,5 @@
+<ul *ngFor="let sbchild of child.childElements ">
+  <li *ngIf="sbchild.parentElement == child.id" class="NthLevelElement"><a (click)="addNewShape(sbchild)"><img  class="thumbnail" src="../assets/images/{{sbchild.thumbnailURL}}" />{{sbchild.label}}</a>
+    <app--tool-recursive-palette-element (sendElementFromRecursiveElement)="addNewShape($event)" [child]="sbchild"></app--tool-recursive-palette-element>
+  </li>
+</ul>
