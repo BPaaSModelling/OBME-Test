@@ -1,14 +1,14 @@
-import {Component, Input, OnInit, OnChanges} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 import * as cytoscape from 'cytoscape';
 import {MetamodelElementModel} from '../_models/MetamodelElement.model';
 import {PaletteElementModel} from '../_models/PaletteElement.model';
-let cyt: any;
+let cty: any;
 
 
 @Component({
   selector: 'app-modelling-area',
-  // templateUrl: './modelling-area.component.html',
-  template: '<div id="cy"></div>',
+  templateUrl: './modelling-area.component.html',
+  // template: '<div id="cy"></div>',
   styleUrls: ['./modelling-area.component.css']
 })
 export class ModellingAreaComponent implements OnInit {
@@ -20,45 +20,8 @@ export class ModellingAreaComponent implements OnInit {
   @Input() new_element: PaletteElementModel;
 
   public constructor() {
+console.log('Constructor of graph');
 
-    cyt = cytoscape({
-      container: undefined,
-      elements: [ // list of graph elements to start with
-        { // node a
-          data: { id: 'a' }
-        },
-        { // node b
-          data: { id: 'b' }
-        },
-        { // edge ab
-          data: { id: 'ab', source: 'a', target: 'b' }
-        }
-      ],
-      style: [ // the stylesheet for the graph
-        {
-          selector: 'node',
-          style: {
-            'background-color': '#666',
-            'label': 'data(id)'
-          }
-        },
-
-        {
-          selector: 'edge',
-          style: {
-            'width': 3,
-            'line-color': '#ccc',
-            'target-arrow-color': '#ccc',
-            'target-arrow-shape': 'triangle'
-          }
-        }
-      ],
-
-      layout: {
-        name: 'grid',
-        rows: 1
-      }
-    });
 
     this.layout = this.layout || {
       name: 'grid',
@@ -111,10 +74,6 @@ export class ModellingAreaComponent implements OnInit {
       });
   }
 
-  public ngOnInit(): any {
-    this.render();
-  }
-
   public render() {
     /*jQuery(this.el.nativeElement).cytoscape({
       layout: this.layout,
@@ -123,6 +82,61 @@ export class ModellingAreaComponent implements OnInit {
       style: this.style,
       elements: this.elements,
     });*/
+  }
+
+  ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    //TODO to change with ngDoCheck
+    // this.printNewElement(changes.new_element.currentValue);
+console.log('on changes');
+    cty = cytoscape({
+      container: document.getElementById('cy'),
+      elements: [ // list of graph elements to start with
+        { // node a
+          data: { id: 'a' }
+        },
+        { // node b
+          data: { id: 'b' }
+        },
+        { // edge ab
+          data: { id: 'ab', source: 'a', target: 'b' }
+        }
+      ],
+      style: [ // the stylesheet for the graph
+        {
+          selector: 'node',
+          style: {
+            'background-color': '#666',
+            'label': 'data(id)'
+          }
+        },
+
+        {
+          selector: 'edge',
+          style: {
+            'width': 3,
+            'line-color': '#ccc',
+            'target-arrow-color': '#ccc',
+            'target-arrow-shape': 'triangle'
+          }
+        }
+      ],
+
+      layout: {
+        name: 'grid',
+        rows: 1
+      }
+    });
+
+    /*let eles = cty.add([
+      { group: "nodes", data: { id: "n0" }, position: { x: 100, y: 100 } },
+      { group: "nodes", data: { id: "n1" }, position: { x: 200, y: 200 } },
+      { group: "edges", data: { id: "e0", source: "n0", target: "n1" } }
+    ]);*/
+
+    //console.log(changes.new_element.currentValue);
   }
 }
 // https://github.com/shlomiassaf/ngx-modialog
