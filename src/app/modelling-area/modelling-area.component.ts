@@ -1,7 +1,8 @@
-import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges, HostListener} from '@angular/core';
 import * as cytoscape from 'cytoscape';
 import {MetamodelElementModel} from '../_models/MetamodelElement.model';
 import {PaletteElementModel} from '../_models/PaletteElement.model';
+import {VariablesSettings} from "../_settings/variables.settings";
 let cty: any;
 
 
@@ -18,6 +19,12 @@ export class ModellingAreaComponent implements OnInit {
   @Input() public layout: any;
   @Input() public zoom: any;
   @Input() new_element: PaletteElementModel;
+  private elementCnt = 0;
+  private node1;
+  private node2;
+  private key;
+  private connectorModeOn: boolean = false;
+  private connectorId;
 
   public constructor() {
 console.log('Constructor of graph');
@@ -34,7 +41,7 @@ console.log('Constructor of graph');
       max: 1.5
     };
 
-    this.style = this.style || cytoscape.stylesheet()
+    /*this.style = this.style || cytoscape.stylesheet()
       .selector('node')
       .css({
         'content': 'data(name)',
@@ -71,48 +78,13 @@ console.log('Constructor of graph');
       .css({
         'opacity': 0.25,
         'text-opacity': 0
-      });
-  }
-
-  public render() {
-    /*jQuery(this.el.nativeElement).cytoscape({
-      layout: this.layout,
-      minZoom: this.zoom.min,
-      maxZoom: this.zoom.max,
-      style: this.style,
-      elements: this.elements,
-    });*/
+      });*/
   }
 
   ngOnInit() {
     cty = cytoscape({
-      container: document.getElementById('cy')
-    });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    //TODO to change with ngDoCheck
-    this.printNewElement(changes.new_element.currentValue);
-
-
-
-    /*let eles = cty.add([
-      { group: "nodes", data: { id: "n0" }, position: { x: 100, y: 100 } },
-      { group: "nodes", data: { id: "n1" }, position: { x: 200, y: 200 } },
-      { group: "edges", data: { id: "e0", source: "n0", target: "n1" } }
-    ]);*/
-
-    //console.log(changes.new_element.currentValue);
-  }
-
-  printNewElement(element: PaletteElementModel): void {
-
-    if (element !== undefined) {
-      console.log(element.imageURL);
-      cty.add(
-        { group: 'nodes', data: {id: 'node1'}}
-        );
-      cty.style()
+      container: document.getElementById('cy'),
+      style: cytoscape.stylesheet()
         .selector('node')
         .css({
           'height': 70,
@@ -122,13 +94,137 @@ console.log('Constructor of graph');
           'border-width': 0,
           'background': 'none'
         })
-        .selector('#node1')
-        .css({
-          'shape': 'rectangle',
-          'background-color': '#000',
-          'background-image': '../assets/images/'+element.imageURL // 'https://farm7.staticflickr.com/6098/6224655456_f4c3c98589_b.jpg'
-        }).update();
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.printNewElement(changes.new_element.currentValue);
+  }
+
+  printNewElement(element: PaletteElementModel): void {
+
+    if (element !== undefined) {
+      console.log('category is: ' + element.paletteCategory);
+      console.log(VariablesSettings.paletteCategoryConnectorsURI);
+      if (element.paletteCategory === VariablesSettings.paletteCategoryConnectorsURI) {
+        this.connectorModeOn = true;
+        console.log('connector mode: '+this.connectorModeOn);
+        this.connectorId = element.uuid;
+      }
+      else {
+        const elementId = element.uuid;
+        const nodeId = '#' + elementId;
+        cty.add(
+          {group: 'nodes', data: {id: elementId}}
+        );
+        cty.style()
+          .selector(nodeId)
+          .css({
+            'shape': 'roundrectangle',
+            'content': element.label,
+            'text-valign': 'center',
+            'text-halign': 'center',
+            'background-color': '#000',
+            'background-image': '../assets/images/' + element.imageURL // 'https://farm7.staticflickr.com/6098/6224655456_f4c3c98589_b.jpg'
+          })
+          .update();
+        /*if (this.elementCnt === 0) {
+          this.node1 = elementId;
+          console.log('node1: ' + this.node1);
+          this.elementCnt++;
+        }
+        else if (this.elementCnt === 1) {
+          this.node2 = elementId;
+          this.elementCnt++;
+
+          console.log('node2: ' + this.node2);
+          cty.add(
+            {data: {id: 'edge1', source: this.node1, target: this.node2}}
+          );
+          cty.style()
+            .selector('edge')
+            .css({
+              'curve-style': 'bezier',
+              'width': 1,
+              'target-arrow-shape': 'triangle',
+              'line-color': '#000000',
+              'target-arrow-color': '#000000'
+            })
+            .update();
+        }*/
+      }
     }
     }
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    let ele = cty.$(':selected');
+    console.log(ele);
+    if (ele.length === 0) {
+      //console.log(ele[0]._private.data.id);
+      this.deselectAll();
+    }
+    else if (ele.length === 1) {
+      console.log(ele[0]._private.data.id);
+      this.deselectAll();
+      this.selectNode(ele[0]._private.data.id);
+      if( this.connectorModeOn === true && this.elementCnt === 0) {
+        this.node1 = ele[0]._private.data.id;
+        this.elementCnt++;
+      }
+      else if( this.connectorModeOn === true && this.elementCnt === 1) {
+        this.node2 = ele[0]._private.data.id;
+        this.elementCnt = 0;
+
+        cty.add(
+          {data: {id: this.connectorId, source: this.node1, target: this.node2}}
+        );
+        cty.style()
+          .selector('edge')
+          .css({
+            'curve-style': 'bezier',
+            'width': 1,
+            'target-arrow-shape': 'triangle',
+            'line-color': '#000000',
+            'target-arrow-color': '#000000'
+          })
+          .update();
+        this.connectorModeOn = false;
+      }
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    this.key = event.key;
+    if ((this.key === 'Backspace' || this.key === 'Delete')
+    ) {
+        let ele = cty.$(':selected');
+      if (ele.length === 1) {
+        cty.$(':selected').remove();
+      }
+        console.log(ele);
+    }
+  }
+
+  selectNode(id) {
+    cty.style()
+      .selector('#'+id)
+      .css({
+        'border': 'solid',
+        'border-width': 2
+      })
+      .update();
+  }
+
+  deselectAll() {
+    cty.style()
+      .selector('node')
+      .css({
+        'border': 'none',
+        'border-width': 0
+      })
+      .update();
+  }
 }
 // https://github.com/shlomiassaf/ngx-modialog

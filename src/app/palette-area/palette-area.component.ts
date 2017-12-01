@@ -34,7 +34,9 @@ export class PaletteAreaComponent implements OnInit {
     const uuid = UUID.UUID();
     const b: PaletteElementModel = Object.assign({}, a);
     b.id = a.id;
+    console.log('b.label is '+b.label);
     b.uuid = uuid;
+    console.log('b.uuid is '+b.uuid);
     this.sendElementFromPalette.emit(b);
   }
 }
