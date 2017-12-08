@@ -14,9 +14,12 @@ export class PaletteElementModel {
   labelPosition: string;
   iconURL: string;
   iconPosition: string;
-  usesImages: string;
+  usesImage: string;
   imageURL: string;
   thumbnailURL: string;
+  borderColor: string;
+  borderThickness: string;
+  borderType: string;
 
   tempLabel;
 
