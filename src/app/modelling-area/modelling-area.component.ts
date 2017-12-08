@@ -88,11 +88,11 @@ console.log('Constructor of graph');
         .selector('node')
         .css({
           'height': 70,
-          'width': 100,
-          'background-fit': 'cover',
+          'width': 100
+          /*'background-fit': 'cover',
           'border': 'none',
           'border-width': 0,
-          'background': 'none'
+          'background': 'none'*/
         })
     });
   }
@@ -120,12 +120,15 @@ console.log('Constructor of graph');
         cty.style()
           .selector(nodeId)
           .css({
-            'shape': 'roundrectangle',
+            'shape': element.shape,
             'content': element.label,
+            'height': element.height,
+            'width': element.width,
             'text-valign': 'center',
             'text-halign': 'center',
-            'background-color': '#000',
-            'background-image': '../assets/images/' + element.imageURL // 'https://farm7.staticflickr.com/6098/6224655456_f4c3c98589_b.jpg'
+            'background-color': element.backgroundColor,
+            'border': 'solid',
+            'border-width': 1
           })
           .update();
         /*if (this.elementCnt === 0) {

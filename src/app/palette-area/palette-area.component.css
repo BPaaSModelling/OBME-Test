@@ -175,7 +175,7 @@ app--tool-recursive-palette-element:hover {
   right:-20px;
 }
 
-.rectangular {
+.roundrectangle {
   border-radius: 10px;
   background: #c9dcf5;
   width: 75px;
