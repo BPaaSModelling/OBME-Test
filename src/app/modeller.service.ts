@@ -41,13 +41,6 @@ export class ModellerService {
       }, error => console.log('Could not query PaletteElements'));
   }
 
-  getCss(element: PaletteElementModel): string {
-    let cssString = '';
-    cssString += 'background-color:' + element.backgroundColor + ';';
-    cssString += 'border:solid 1px black';
-    return cssString;
-  }
-
   createElementInOntology(element: Object): string {
     let result = '';
     this.http.post(EndpointSettings.getCreateElementEndpoint(), JSON.stringify(element))
