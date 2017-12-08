@@ -5,7 +5,15 @@
   <nav class="element-container">
     <ng-container *ngFor="let element of mService.paletteElements">
     <ul class="element" *ngIf="(element.paletteCategory == category.id)">
-      <li class="paletteElement"><a (click)="addNewShape(element)"><img class="thumbnail"  src="../assets/images/{{element.thumbnailURL}}" /></a>
+      <li class="paletteElement"><a (click)="addNewShape(element)" *ngIf="(element.usesImages); then thenBlock else elseBlock">
+        <ng-template #thenBlock>
+          <img class="thumbnail"  src="../assets/images/{{element.thumbnailURL}}" />
+        </ng-template>
+        <ng-template #elseBlock>
+        {{element.usesImages}}
+        </ng-template>
+
+      </a>
         <app--tool-recursive-palette-element (sendElementFromRecursiveElement)="addNewShape($event)" [child]="element"></app--tool-recursive-palette-element>
       </li>
     </ul>
