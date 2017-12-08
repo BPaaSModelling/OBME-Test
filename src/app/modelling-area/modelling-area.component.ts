@@ -25,6 +25,7 @@ export class ModellingAreaComponent implements OnInit {
   private key;
   private connectorModeOn: boolean = false;
   private connectorId;
+  private $cxtMenu;
 
   public constructor() {
 console.log('Constructor of graph');
@@ -95,6 +96,8 @@ console.log('Constructor of graph');
           'background': 'none'
         })
     });
+
+    // this.$cxtMenu = this.createAndAppendCxtMenuComponent();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -128,6 +131,9 @@ console.log('Constructor of graph');
             'background-image': '../assets/images/' + element.imageURL // 'https://farm7.staticflickr.com/6098/6224655456_f4c3c98589_b.jpg'
           })
           .update();
+
+        let ele = cty.getObjectById(elementId);
+        //this.createAddAppendContentComponents(ele);
         /*if (this.elementCnt === 0) {
           this.node1 = elementId;
           console.log('node1: ' + this.node1);
@@ -207,6 +213,12 @@ console.log('Constructor of graph');
     }
   }
 
+  /*@HostListener('document:dblclick', ['$event'])
+  handleMouseEvent(event: MouseEvent) {
+    let el = cty.$(':selected');
+    this.displayComponent(el);
+  }*/
+
   selectNode(id) {
     cty.style()
       .selector('#'+id)
@@ -226,5 +238,47 @@ console.log('Constructor of graph');
       })
       .update();
   }
+
+  /*createAndAppendCxtMenuComponent() {
+
+    let $cxtMenu = $('<div id="cy-context-edit-content"></div>');
+    $('body').append($cxtMenu);
+    console.log('Called create function');
+    return $cxtMenu;
+  }
+
+  createAddAppendContentComponents(ele) {
+      console.log(ele.data('name'));
+      this.createEditContentComponent(ele);
+  }
+
+  createEditContentComponent(ele){
+    var $input = undefined;
+    if (ele.data('name') != undefined) {
+      $input = '<input type="text" name="" value="'+ ele.data('name') +'" size="30" />';
+      // $input.focus();
+      $('body').keyup(function(e) {
+        if(e.keyCode === 13) {
+          ele.data('name', $input.val());
+        }if (e.keyCode === 27) {
+          hideComponent($cxtMenu);
+          cy.removeScratch('cxtMenuPosition');
+        }
+      });
+    }else {
+      console.log(ele.data('name'));
+    }
+    // appendComponentToCxtMenu($input);
+    // return $input;
+  }
+
+  displayComponent($component) {
+    $component.css('display', 'block');
+  }
+
+  hideComponent($component) {
+    $component.css('display', 'none');
+  }*/
+
 }
 // https://github.com/shlomiassaf/ngx-modialog
