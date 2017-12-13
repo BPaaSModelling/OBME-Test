@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ModellerService} from "../modeller.service";
-import {MetamodelElementModel} from "../_models/MetamodelElement.model";
+import {MetamodelElementModel} from "../_models/GraphicalElement.model";
 import {PaletteElementModel} from "../_models/PaletteElement.model";
 
 @Component({

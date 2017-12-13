@@ -1,8 +1,8 @@
 import {Component, Input, OnInit, OnChanges, SimpleChanges, HostListener} from '@angular/core';
 import * as cytoscape from 'cytoscape';
-import {MetamodelElementModel} from '../_models/MetamodelElement.model';
 import {PaletteElementModel} from '../_models/PaletteElement.model';
-import {VariablesSettings} from "../_settings/variables.settings";
+import {VariablesSettings} from '../_settings/variables.settings';
+import {GraphicalElementModel} from '../_models/GraphicalElement.model';
 let cty: any;
 
 
@@ -92,6 +92,15 @@ console.log('Constructor of graph');
             'border-width': 1
           })
           .update();
+        //console.log(cty.getElementById(elementId).position().x);
+        let ge: GraphicalElementModel = new GraphicalElementModel();
+        ge.x = cty.getElementById(elementId).position().x;
+        ge.y =  cty.getElementById(elementId).position().y;
+        ge.uuid = element.uuid;
+        ge.classType = element.id;
+        ge.label = "New " + element.label
+
+        this.mService.createElementInOntology(ge);
         /*if (this.elementCnt === 0) {
           this.node1 = elementId;
           console.log('node1: ' + this.node1);

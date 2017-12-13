@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PaletteElementModel} from "../_models/PaletteElement.model";
-import {MetamodelElementModel} from "../_models/MetamodelElement.model";
+import {MetamodelElementModel} from "../_models/GraphicalElement.model";
 
 @Component({
   selector: 'app--tool-recursive-palette-element',
