@@ -76,6 +76,7 @@ console.log('Constructor of graph');
       else {
         const elementId = element.uuid;
         const nodeId = '#' + elementId;
+        console.log('icon url is: '+element.imageURL);
         cty.add(
           {group: 'nodes', data: {id: elementId}}
         );
@@ -86,13 +87,17 @@ console.log('Constructor of graph');
             'content': element.label,
             'height': element.height,
             'width': element.width,
-            'text-valign': 'center',
+            'text-valign': 'bottom',
             'text-halign': 'center',
             'background-color': element.backgroundColor,
             'border': 'solid',
-            'border-width': 1
+            'border-width': 1,
+            'background-image': VariablesSettings.iconLocation + element.iconURL,
+            'background-position-x': 2,
+            'background-position-y': 2
           })
           .update();
+
         //console.log(cty.getElementById(elementId).position().x);
         let ge: GraphicalElementModel = new GraphicalElementModel();
         ge.x = cty.getElementById(elementId).position().x;
