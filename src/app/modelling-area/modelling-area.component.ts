@@ -3,6 +3,7 @@ import * as cytoscape from 'cytoscape';
 import {PaletteElementModel} from '../_models/PaletteElement.model';
 import {VariablesSettings} from '../_settings/variables.settings';
 import {GraphicalElementModel} from '../_models/GraphicalElement.model';
+import {ModellerService} from "../modeller.service";
 let cty: any;
 
 
@@ -26,7 +27,7 @@ export class ModellingAreaComponent implements OnInit {
   private connectorModeOn: boolean = false;
   private connectorId;
 
-  public constructor() {
+  public constructor(private mService: ModellerService) {
 console.log('Constructor of graph');
 
 

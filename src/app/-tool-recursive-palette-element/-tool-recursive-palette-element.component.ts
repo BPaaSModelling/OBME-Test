@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PaletteElementModel} from "../_models/PaletteElement.model";
-import {MetamodelElementModel} from "../_models/GraphicalElement.model";
+import {GraphicalElementModel} from "../_models/GraphicalElement.model";
 
 @Component({
   selector: 'app--tool-recursive-palette-element',
@@ -18,8 +18,8 @@ export class ToolRecursivePaletteElementComponent implements OnInit {
     //console.log(this.child.id);
   }
 
-  private addNewShape(a: MetamodelElementModel): void {
-    let b: MetamodelElementModel = Object.assign({}, a);
+  private addNewShape(a: GraphicalElementModel): void {
+    let b: GraphicalElementModel = Object.assign({}, a);
     this.sendElementFromRecursiveElement.emit(b);
   }
 

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
-import {MetamodelElementModel} from '../_models/GraphicalElement.model';
+import {GraphicalElementModel} from '../_models/GraphicalElement.model';
 import {ModellerService} from '../modeller.service';
 import {PaletteElementModel} from '../_models/PaletteElement.model';
 
