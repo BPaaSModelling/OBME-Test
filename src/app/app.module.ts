@@ -12,6 +12,7 @@ import {MatListModule, MatButtonModule, MatToolbarModule} from '@angular/materia
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ToolRecursivePaletteElementComponent} from './-tool-recursive-palette-element/-tool-recursive-palette-element.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 
 const appRoutes: Routes = [
   { path: 'modeller', component: ModellingEnvironmentComponent},
@@ -37,6 +38,7 @@ const appRoutes: Routes = [
     MatToolbarModule,
     BrowserAnimationsModule,
     NgbModule,
+    FormsModule
   ],
   providers: [ModellerService],
   bootstrap: [AppComponent]

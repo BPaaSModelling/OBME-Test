@@ -5,3 +5,13 @@
   left: 20%;
   top: 5%;
 }
+
+#showTextBox {
+  visibility: hidden;
+  position:absolute;
+}
+
+#txtBox {
+  position: relative;
+  z-Index: 500;
+}

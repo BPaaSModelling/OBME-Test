@@ -1,11 +1,15 @@
 import {Component, Input, OnInit, OnChanges, SimpleChanges, HostListener} from '@angular/core';
 import * as cytoscape from 'cytoscape';
+import * as jquery from 'jquery';
+//import * as qtip from 'cytoscape-qtip';
 import {PaletteElementModel} from '../_models/PaletteElement.model';
 import {VariablesSettings} from '../_settings/variables.settings';
 import {GraphicalElementModel} from '../_models/GraphicalElement.model';
 import {ModellerService} from "../modeller.service";
-let cty: any;
 
+let cty: any;
+//qtip( cytoscape, jquery );
+//cytoscape.use(qtip);
 
 @Component({
   selector: 'app-modelling-area',
@@ -26,10 +30,10 @@ export class ModellingAreaComponent implements OnInit {
   private key;
   private connectorModeOn: boolean = false;
   private connectorId;
+  txtValue : string = 'Hello There';
 
   public constructor(private mService: ModellerService) {
 console.log('Constructor of graph');
-
 
     this.layout = this.layout || {
       name: 'grid',
@@ -57,6 +61,7 @@ console.log('Constructor of graph');
           'background': 'none'*/
         })
     });
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -98,6 +103,29 @@ console.log('Constructor of graph');
           })
           .update();
 
+        let ele = cty.getElementById(elementId);
+        /*cty.elements().qtip({
+          content: function() {
+            return 'Example qTip on ele '
+          },
+          position: {
+            target: 'mouse',
+            adjust: {
+              mouse: false
+            }
+          },
+          show: {
+            event: 'cxttap'
+          },
+          style: {
+            classes: 'qtip-bootstrap',
+            tip: {
+              width: 16,
+              height: 8
+            }
+          }
+        });*/
+
         //console.log(cty.getElementById(elementId).position().x);
         let ge: GraphicalElementModel = new GraphicalElementModel();
         ge.x = cty.getElementById(elementId).position().x;
@@ -107,33 +135,32 @@ console.log('Constructor of graph');
         ge.label = "New " + element.label
 
         this.mService.createElementInOntology(ge);
-        /*if (this.elementCnt === 0) {
-          this.node1 = elementId;
-          console.log('node1: ' + this.node1);
-          this.elementCnt++;
-        }
-        else if (this.elementCnt === 1) {
-          this.node2 = elementId;
-          this.elementCnt++;
 
-          console.log('node2: ' + this.node2);
-          cty.add(
-            {data: {id: 'edge1', source: this.node1, target: this.node2}}
-          );
-          cty.style()
-            .selector('edge')
-            .css({
-              'curve-style': 'bezier',
-              'width': 1,
-              'target-arrow-shape': 'triangle',
-              'line-color': '#000000',
-              'target-arrow-color': '#000000'
-            })
-            .update();
-        }*/
       }
     }
     }
+
+  @HostListener('document:dblclick', ['$event'])
+  handleMouseEvent(event: MouseEvent) {
+    let ele = cty.$(':selected');
+    console.log('invoke qtip on: ');
+    console.log(cty.elements());
+    if(ele.length > 0) {
+      let position = cty.getElementById(ele[0]._private.data.id).renderedPosition();
+      console.log(position);
+      let showTxtBox = document.getElementById('showTextBox');
+      showTxtBox.style.top = position.y;
+      showTxtBox.style.left = position.x;
+      showTxtBox.style.visibility = 'visible';
+
+      /*let dialogRef = dialog.open(UserProfileComponent, {
+        height: '400px',
+        width: '600px',
+      });*/
+
+
+    }
+  }
 
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
@@ -204,6 +231,24 @@ console.log('Constructor of graph');
         'border-width': 0
       })
       .update();
+  }
+
+  editText(newLabel) {
+    console.log('inside edittext:'+newLabel);
+    let ele = cty.$(':selected');
+    let node = cty.getElementById(ele[0]._private.data.id);
+    node.data('label', newLabel);
+    cty.style()
+      .selector('#'+ele[0]._private.data.id)
+      .css({
+        'content': newLabel
+      })
+      .update();
+
+    this.deselectAll();
+
+    let showTxtBox = document.getElementById('showTextBox');
+    showTxtBox.style.visibility = 'hidden';
   }
 }
 // https://github.com/shlomiassaf/ngx-modialog

@@ -3,6 +3,7 @@
   height:100%;
   background-image: url('../assets/images/bg-square-min.png');
   background-repeat: repeat;">
+  <div id="showTextBox"><input type="text" #name [(ngModel)]="txtValue"><button (click)="editText(name.value)">Edit Text</button></div>
   <div id="cy"></div>
 </div>
 
